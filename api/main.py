@@ -1,5 +1,6 @@
 # api/main.py
-
+from fastapi import UploadFile, File
+from src.vision import extract_features_from_image
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -15,6 +16,22 @@ class FishFeatures(BaseModel):
     Length3: float
     Height: float
     Width: float
+
+@app.post("/predict-image")
+async def predict_from_image(file: UploadFile = File(...)):
+    """
+    Recebe uma imagem do peixe, extrai medidas simples
+    e estima o peso usando o modelo treinado.
+    """
+    image_bytes = await file.read()
+
+    features = extract_features_from_image(image_bytes)
+    prediction = predict(features)
+
+    return {
+        "features_extracted": features,
+        "estimated_weight_g": prediction
+    }
 
 
 @app.post("/predict")
