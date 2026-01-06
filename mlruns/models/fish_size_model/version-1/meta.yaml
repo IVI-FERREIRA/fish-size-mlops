@@ -1,0 +1,15 @@
+creation_timestamp: 1767656369204
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1767656369204
+model_id: m-dac172b5bdc049bba1f7c0725fc43dba
+name: fish_size_model
+run_id: 4a281590324a40ba8934d8148724e349
+run_link: null
+source: models:/m-dac172b5bdc049bba1f7c0725fc43dba
+status: READY
+status_message: null
+storage_location: file:///C:/Users/IviFerreira/Desktop/fish-size-mlops/mlruns/388659525840570906/models/m-dac172b5bdc049bba1f7c0725fc43dba/artifacts
+user_id: null
+version: 1

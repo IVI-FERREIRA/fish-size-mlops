@@ -1,0 +1,22 @@
+artifact_path: file:///C:/Users/IviFerreira/Desktop/fish-size-mlops/mlruns/388659525840570906/models/m-dac172b5bdc049bba1f7c0725fc43dba/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.0
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.8.1
+model_id: m-dac172b5bdc049bba1f7c0725fc43dba
+model_size_bytes: 1044930
+model_uuid: m-dac172b5bdc049bba1f7c0725fc43dba
+prompts: null
+run_id: 4a281590324a40ba8934d8148724e349
+utc_time_created: '2026-01-05 23:39:15.149364'

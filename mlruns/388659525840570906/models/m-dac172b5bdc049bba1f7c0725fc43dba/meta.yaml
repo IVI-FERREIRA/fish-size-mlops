@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/IviFerreira/Desktop/fish-size-mlops/mlruns/388659525840570906/models/m-dac172b5bdc049bba1f7c0725fc43dba/artifacts
+creation_timestamp: 1767656355022
+experiment_id: '388659525840570906'
+last_updated_timestamp: 1767656369140
+model_id: m-dac172b5bdc049bba1f7c0725fc43dba
+model_type: null
+name: model
+source_run_id: 4a281590324a40ba8934d8148724e349
+status: 2
+status_message: null
