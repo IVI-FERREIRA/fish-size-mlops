@@ -2,7 +2,7 @@
 .venv/
 
 # Dados
-data/raw/*.csv
+#data/raw/*.csv
 data/processed/*.csv
 
 # MLflow
