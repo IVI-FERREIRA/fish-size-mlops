@@ -1,4 +1,4 @@
-# 🐟 Fish Size Prediction API (MLOps Technical Test)
+# 🐟 Fish Size Prediction API (Teste técnico MLOps)
 
 API para estimar o **peso de um peixe (em gramas)** a partir de:
 
@@ -22,7 +22,7 @@ Projeto desenvolvido como **teste técnico de MLOps**, com foco em:
 - Gera o modelo final `model.pkl`
 
 ### Inferência
-- API FastAPI rodando em Docker
+- API FastAPI quando rodando em Docker
 - Carrega apenas o modelo treinado
 - Sem dependências externas em runtime
 
@@ -185,14 +185,6 @@ Gera as features
 
 Estima o peso
 
-Exemplo com curl:
-
-curl -X POST "http://localhost:8000/predict-image" \
-  -H "accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@peixe.jpg"
-
-
 Resposta:
 
 {
@@ -217,19 +209,6 @@ opencv-python
 python-multipart
 
 
-📌 MLflow não é dependência da API.
-
-🧪 O que está sendo avaliado no teste
-
-Separação clara entre treino e inferência
-
-Docker funcional
-
-API documentada
-
-Decisões arquiteturais justificáveis
-
-Código organizado e reproduzível
 
 🧠 Próximos Passos (Produção)
 
