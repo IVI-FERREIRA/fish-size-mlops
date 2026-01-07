@@ -1,8 +1,7 @@
 pandas
 numpy
 scikit-learn
-mlflow
 uvicorn
 fastapi
-opencv-python
+opencv-python-headless
 python-multipart
