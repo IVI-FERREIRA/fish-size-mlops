@@ -228,6 +228,7 @@ scikit-learn
 joblib
 fastapi
 uvicorn
+mlflow
 opencv-python
 python-multipart
 ```
