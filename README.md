@@ -1,36 +1,34 @@
-# 🐟 Fish Size Prediction API (Teste técnico MLOps)
+# 🐟 API de Predição de Peso de Peixes
 
 API para estimar o **peso de um peixe (em gramas)** a partir de:
 
 - Medidas morfométricas manuais (JSON)
 - Imagem do peixe com régua de referência
 
-Projeto desenvolvido como **teste técnico de MLOps**, com foco em:
+Projeto desenvolvido como **teste técnico**, seguindo boas práticas de mercado, com foco em:
 
-- Simplicidade  
-- Reprodutibilidade  
-- Separação clara entre **treinamento** e **inferência**  
-- Containerização  
-- Decisões arquiteturais conscientes  
+- Simplicidade
+- Reprodutibilidade
+- Separação clara entre **treinamento** e **inferência**
+- Containerização
+- Decisões arquiteturais conscientes
 
 ---
 
 ## 📌 Visão Geral da Arquitetura
 
-### Treinamento
-- Executado localmente (fora do container)
+### 🏋️‍♂️ Treinamento
+- Executado **localmente**, fora do container
 - Gera o modelo final `model.pkl`
+- MLflow utilizado **apenas durante o treino** (tracking experimental)
 
-### Inferência
-- API FastAPI quando rodando em Docker
-- Carrega apenas o modelo treinado
-- Sem dependências externas em runtime
+### 🚀 Inferência
+- API FastAPI
+- Modelo carregado via `joblib`
+- **Sem uso de MLflow em runtime**
+- Execução local ou via Docker
 
-### MLflow
-- Utilizado **somente durante o treino**
-- **Não** utilizado na API
-
-📌 O objetivo é demonstrar boas práticas reais de MLOps em um cenário simples e funcional.
+📌 O uso de MLflow foi propositalmente restrito ao treinamento para reduzir complexidade e dependências em produção.
 
 ---
 
@@ -60,102 +58,93 @@ fish-size-mlops/
 ├── Dockerfile
 ├── .gitignore
 └── README.md
+```
 
-🧠 Sobre o Modelo
+---
 
-Modelo de regressão supervisionada, treinado com as seguintes features:
+## 🧠 Sobre o Modelo
 
-Feature	Descrição
-Length1	Comprimento parcial do peixe
-Length2	Comprimento intermediário
-Length3	Comprimento total (focinho → ponta da cauda)
-Height	Altura do peixe
-Width	Largura do peixe
+Modelo de **regressão supervisionada** treinado com as seguintes features:
 
-📌 Length3 representa o tamanho total do peixe.
+| Feature | Descrição |
+|---------|-----------|
+| Length1 | Comprimento parcial do peixe |
+| Length2 | Comprimento intermediário |
+| Length3 | **Comprimento total (focinho → ponta da cauda)** |
+| Height  | Altura do peixe |
+| Width   | Largura do peixe |
 
-🏋️‍♂️ Treinamento do Modelo
+📌 **Length3 representa o tamanho total do peixe.**
 
-O treinamento é executado fora do Docker.
+---
 
+## 🏋️‍♂️ Executando o Treinamento (Local)
+
+### 1️⃣ Criar ambiente virtual
+```bash
+python -m venv .venv
+```
+
+### 2️⃣ Ativar o ambiente
+
+**Windows**
+```bash
+.venv\Scripts\activate
+```
+
+**Linux / macOS**
+```bash
+source .venv/bin/activate
+```
+
+### 3️⃣ Instalar dependências
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Executar o treino
+```bash
 python -m src.train
+```
 
+Ao final do treino será gerado o arquivo:
 
-Durante o treino:
-
-Leitura e processamento dos dados
-
-Treinamento do modelo
-
-Avaliação com MAE e R²
-
-Salvamento do modelo final em:
-
+```text
 model.pkl
+```
 
+📌 Este arquivo é versionado no repositório e utilizado diretamente pela API.
 
-Esse arquivo é:
+---
 
-Versionado no repositório
+## 🚀 Executando a API Localmente (Sem Docker)
 
-Copiado para dentro do container
+Com o ambiente virtual ativado:
 
-Utilizado diretamente na inferência
-
-❌ Por que MLflow NÃO é usado na API?
-
-MLflow foi utilizado somente no treinamento, para:
-
-Tracking de métricas
-
-Experimentação
-
-Comparação de modelos
-
-Na API:
-
-❌ MLflow não é utilizado
-
-❌ mlruns não é necessário
-
-❌ Nenhuma dependência externa em runtime
-
-Motivos da decisão
-
-Redução de complexidade
-
-Menor tempo de startup
-
-Eliminação de dependências externas
-
-Docker mais simples
-
-Adequado para teste técnico e produção simples
-
-📌 Em produção real, MLflow seria utilizado via CI/CD ou Model Registry externo, não embutido na API.
-
-🚀 Rodando a API com Docker
-1️⃣ Build da imagem
-docker build --no-cache -t fish-size-mlops .
-
-2️⃣ Rodar o container
-docker run -p 8000:8000 fish-size-mlops
-
+```bash
+uvicorn api.main:app --reload
+```
 
 A API ficará disponível em:
 
+```text
 http://localhost:8000
-
+```
 
 Documentação Swagger:
 
+```text
 http://localhost:8000/docs
+```
 
-🔌 Endpoints
-🔹 POST /predict — Medidas manuais
+---
 
-Entrada (JSON):
+## 🔌 Endpoints
 
+### 🔹 POST /predict — Medidas Manuais
+
+**Entrada**
+```json
 {
   "Length1": 20,
   "Length2": 22,
@@ -163,30 +152,29 @@ Entrada (JSON):
   "Height": 5,
   "Width": 5
 }
+```
 
-
-Resposta:
-
+**Resposta**
+```json
 {
   "estimated_weight_g": 183.36
 }
+```
 
-🔹 POST /predict-image — Imagem do peixe
+---
 
-Envie uma imagem contendo o peixe e uma régua de referência
+### 🔹 POST /predict-image — Imagem do Peixe
 
-A API:
+Envie uma imagem contendo o peixe e uma régua de referência.
 
-Extrai contornos com OpenCV
+A API realiza:
+- Extração de contornos com OpenCV
+- Conversão de pixels → centímetros
+- Geração das features morfométricas
+- Estimativa do peso
 
-Converte pixels → centímetros
-
-Gera as features
-
-Estima o peso
-
-Resposta:
-
+**Resposta**
+```json
 {
   "features_extracted": {
     "Length1": 14.56,
@@ -197,8 +185,33 @@ Resposta:
   },
   "estimated_weight_g": 42.54
 }
+```
 
-📦 Dependências Principais
+---
+
+## 🐳 Executando com Docker
+
+### 1️⃣ Build da imagem
+```bash
+docker build --no-cache -t fish-size-mlops .
+```
+
+### 2️⃣ Rodar o container
+```bash
+docker run -p 8000:8000 fish-size-mlops
+```
+
+A API ficará disponível em:
+
+```text
+http://localhost:8000
+```
+
+---
+
+## 📦 Dependências Principais
+
+```text
 pandas
 numpy
 scikit-learn
@@ -207,17 +220,16 @@ fastapi
 uvicorn
 opencv-python
 python-multipart
+```
 
+📌 **MLflow não é dependência da API.**
 
+---
 
-🧠 Próximos Passos (Produção)
+## 🧠 Próximos Passos (Produção)
 
-Docker Compose (API + Registry + DB)
-
-Model Registry externo
-
-CI/CD para retreino automático
-
-Monitoramento de drift
-
-Visão computacional mais robusta (YOLO / segmentação)
+- Docker Compose (API + serviços auxiliares)
+- Model Registry externo
+- CI/CD para retreino automático
+- Monitoramento de drift
+- Visão computacional mais robusta (YOLO / segmentação)
