@@ -103,7 +103,7 @@ source .venv/bin/activate
 
 ### 3️⃣ Instalar dependências
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-train.txt
 ```
 
 ### 4️⃣ Executar o treino
