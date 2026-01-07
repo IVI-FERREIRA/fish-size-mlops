@@ -16,7 +16,8 @@ Projeto desenvolvido como **teste técnico**, seguindo boas práticas de mercado
 ---
 
 ## 📌 Visão Geral da Arquitetura
-<img width="1411" height="509" alt="image" src="https://github.com/user-attachments/assets/a5a5cd8a-bdaf-4d79-9147-909fee9d5776" />
+<img width="1735" height="633" alt="image" src="https://github.com/user-attachments/assets/6bef319c-fef4-4de5-b6ad-6637752972c2" />
+
 
 
 
@@ -166,7 +167,7 @@ http://localhost:8000/docs
 **Resposta**
 ```json
 {
-  "estimated_weight_g": 183.36
+  "estimated_weight_g": 204.71
 }
 ```
 
@@ -174,7 +175,7 @@ http://localhost:8000/docs
 
 ### 🔹 POST /predict-image — Imagem do Peixe
 
-Envie uma imagem contendo o peixe e uma régua de referência.
+Envie uma imagem contendo o peixe e uma régua de referência (OBS: HÁ UMA PASTA CHAMADA imgs.test QUE PODEM SER USADAS NO TESTE)
 
 A API realiza:
 - Extração de contornos com OpenCV
