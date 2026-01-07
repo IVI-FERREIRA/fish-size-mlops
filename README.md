@@ -16,7 +16,8 @@ Projeto desenvolvido como **teste técnico**, seguindo boas práticas de mercado
 ---
 
 ## 📌 Visão Geral da Arquitetura
-<img width="91" height="31" alt="image" src="https://github.com/user-attachments/assets/9b0e599d-55d1-4f48-a520-766b4c7364b9" />
+<img width="1414" height="505" alt="image" src="https://github.com/user-attachments/assets/c78ffda4-4119-4eaf-af74-475efb3e7885" />
+
 
 
 ### 🏋️‍♂️ Treinamento
