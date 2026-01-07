@@ -2,10 +2,15 @@
 from typing import Dict
 import pandas as pd
 import joblib
+from pathlib import Path
 
-MODEL_PATH = "/app/model.pkl"
+# Resolve o caminho do projeto
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-_model = None  # cache do modelo em memória
+# Caminho do modelo (funciona local e no Docker)
+MODEL_PATH = BASE_DIR / "model.pkl"
+
+_model = None
 
 
 def load_model():
@@ -17,19 +22,12 @@ def load_model():
 
 def predict(features: Dict[str, float]) -> float:
     model = load_model()
-    df = pd.DataFrame([features])
+
+    EXPECTED_COLUMNS = ["Length1", "Length2", "Length3", "Height", "Width"]
+    df = pd.DataFrame(
+        [[features[c] for c in EXPECTED_COLUMNS]],
+        columns=EXPECTED_COLUMNS
+    )
+
     prediction = model.predict(df)
     return float(prediction[0])
-
-
-if __name__ == "__main__":
-    sample_input = {
-        "Length1": 23.2,
-        "Length2": 25.4,
-        "Length3": 30.1,
-        "Height": 11.5,
-        "Width": 4.2,
-    }
-
-    result = predict(sample_input)
-    print(f"Peso estimado: {result:.2f} g")
