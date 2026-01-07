@@ -222,7 +222,26 @@ opencv-python
 python-multipart
 ```
 
-📌 **MLflow não é dependência da API.**
+### ❌ Por que o MLflow não é utilizado em runtime na API?
+
+O MLflow foi utilizado **exclusivamente durante o treinamento**, com os seguintes objetivos:
+
+- Tracking de métricas (MAE, R²)
+- Comparação de experimentos
+- Versionamento experimental de modelos
+
+Na camada de inferência (API), o MLflow **não é utilizado propositalmente**, pelos seguintes motivos:
+
+- Evita dependência de backend de tracking em runtime
+- Reduz tempo de inicialização da API
+- Simplifica a imagem Docker
+- Elimina acoplamento entre API e infraestrutura de experimentos
+- Facilita testes técnicos e execução local
+
+O modelo final é **congelado** e exportado como `model.pkl`, sendo carregado diretamente via `joblib` na API.
+
+📌 Em ambientes de produção, o MLflow pode ser integrado via **CI/CD** ou **Model Registry externo**, mas não diretamente dentro da aplicação de inferência.
+
 
 ---
 
