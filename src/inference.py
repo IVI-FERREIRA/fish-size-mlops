@@ -12,17 +12,17 @@ MODEL_PATH = BASE_DIR / "model.pkl"
 
 _model = None
 
-
+# Carrega o modelo apenas uma vez 
 def load_model():
     global _model
     if _model is None:
         _model = joblib.load(MODEL_PATH)
     return _model
 
-
+# /predict - Numeros
 def predict(features: Dict[str, float]) -> float:
     model = load_model()
-
+# Forçar ordem correta
     EXPECTED_COLUMNS = ["Length1", "Length2", "Length3", "Height", "Width"]
     df = pd.DataFrame(
         [[features[c] for c in EXPECTED_COLUMNS]],
